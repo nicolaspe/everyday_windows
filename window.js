@@ -112,27 +112,29 @@ function createEnvironment(){
 	createScene(2, 0x0000ff);
 }
 function createScene(ind, col){
-	createLight(ind, 0xffffff);
-	scenes[ind].background = new THREE.Color( 0xeeeeee );
+  scenes[ind].background = new THREE.Color( 0xeeeeee );
+  createLights(ind);
   createSphere(ind, col);
 }
-// create lights
-function createLight(ind, col){
-  let light = new THREE.PointLight( col, 1, 1500, 2 );
-  light.position.set(400, 000, 50);
-  scenes[ind].add(light);
+function createLights(ind){
+  let p_light = new THREE.PointLight(0xffffff, 1, 1000, 2);
+  p_light.position.set(0, 0, 0);
+  scenes[ind].add( p_light );
+
+  let str = 0.5;
+  let d_light = new THREE.DirectionalLight(0xffffff, str);
+  scenes[ind].add( d_light );
+
 }
 // create skyDome
 function createSphere(ind, col){
-  // https://www.eso.org/public/usa/images/eso0932a/
-  let skyGeo = new THREE.SphereGeometry(50, 25, 25);
-	let skyMat = new THREE.MeshPhongMaterial({
+  let spGeo = new THREE.SphereGeometry(2, 25, 25);
+	let spMat = new THREE.MeshPhongMaterial({
 		color: col,
 		// emissive: 0xffffff,
 		flatShading: true,
 	});
-  let skyDome = new THREE.Mesh(skyGeo, skyMat);
-  // skyDome.material.side = THREE.BackSide;
-  skyDome.position.set(0, 0, -300);
-  scenes[ind].add(skyDome);
+  let sphere = new THREE.Mesh(spGeo, spMat);
+  sphere.position.set(0, 0, -20);
+  scenes[ind].add(sphere);
 }
