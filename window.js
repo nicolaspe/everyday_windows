@@ -213,9 +213,10 @@ function scene0(){
       transparent: true,
     });
     // position (only LEFT side)
-    let rad   = 30 +Math.random()*5;
+    let rad   = 25 +Math.random()*5;
     let angle = i*(Math.PI/boyNum) + Math.random()*0.05;
-    let posY = Math.random()*20 -5;
+    let posY = 15* Math.sin( Math.PI/4 *(i%2) ) +Math.random()*6-2;
+    // let posY = Math.random()*20 -5;
     let posX = rad * Math.sin(angle +Math.PI);
     let posZ = rad * Math.cos(angle +Math.PI);
     // create and add
@@ -233,9 +234,10 @@ function scene0(){
       transparent: true,
     });
     // position (only RIGHT side)
-    let rad   = 30 +Math.random()*5;
+    let rad   = 25 +Math.random()*5;
     let angle = i*(Math.PI/girlNum) + Math.random()*0.1;
-    let posY = Math.random()*20 -5;
+    let posY = 15* Math.sin( Math.PI/4 *(i%2) ) +Math.random()*6-2;
+    // let posY = Math.random()*20 -5;
     let posX = rad * Math.sin(angle);
     let posZ = rad * Math.cos(angle);
     // create and add
