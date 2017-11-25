@@ -36,7 +36,7 @@ function onLoad(){
 	scenes[4]  = new THREE.Scene();
 	scenes[5]  = new THREE.Scene();
 
-  camera = new THREE.PerspectiveCamera(50, wid/hei, 0.1, 1000);
+  camera = new THREE.PerspectiveCamera(80, wid/hei, 0.1, 1000);
 	controls = new THREE.VRControls( camera );
   controls.standing = true;
   camera.position.y = controls.userHeight;
@@ -175,13 +175,13 @@ function createRoom(ind){
   }
 
   // room walls
-  let wallGeo = new THREE.CylinderGeometry(roomSize*5, roomSize*5, 80, 24, 20, true);
+  let wallGeo = new THREE.CylinderGeometry(roomSize*5, roomSize*5, 250, 24, 20, true);
   let wallMat = new THREE.MeshLambertMaterial({
     color: 0xd0d0d0,
     side: THREE.DoubleSide,
   });
   let wall = new THREE.Mesh(wallGeo, wallMat);
-  wall.position.set(0, 30, 0);
+  wall.position.set(0, 230, 0);
   scenes[ind].add(wall);
 }
 function createSphere(ind, col){
@@ -213,7 +213,7 @@ function scene0(){
       transparent: true,
     });
     // position (only LEFT side)
-    let rad   = 25 +Math.random()*5;
+    let rad   = 12 +Math.random()*10;
     let angle = i*(Math.PI/boyNum) + Math.random()*0.05;
     let posY = 15* Math.sin( Math.PI/4 *(i%2) ) +Math.random()*6-2;
     // let posY = Math.random()*20 -5;
@@ -234,7 +234,7 @@ function scene0(){
       transparent: true,
     });
     // position (only RIGHT side)
-    let rad   = 25 +Math.random()*5;
+    let rad   = 12 +Math.random()*10;
     let angle = i*(Math.PI/girlNum) + Math.random()*0.1;
     let posY = 15* Math.sin( Math.PI/4 *(i%2) ) +Math.random()*6-2;
     // let posY = Math.random()*20 -5;
@@ -247,15 +247,15 @@ function scene0(){
     scenes[ind].add(toy);
   }
 
-  // COLORED WALL
-  let wallGeo = new THREE.CylinderGeometry( roomSize*4.5, roomSize*4.5, 100, 24, 20, true, 0, Math.PI );
+  // COLORED WALLS
+  let wallGeo = new THREE.CylinderGeometry( roomSize*4.5, roomSize*4.5, 150, 24, 20, true, 0, Math.PI );
 
   let boyWallMat = new THREE.MeshLambertMaterial({
     color: 0x3366ff,
     side: THREE.DoubleSide,
   });
   let boyWall = new THREE.Mesh(wallGeo, boyWallMat);
-  boyWall.position.set(0, 24, 0);
+  boyWall.position.set(0, 50, 0);
   boyWall.rotation.y = Math.PI;
   scenes[ind].add(boyWall);
 
@@ -264,7 +264,7 @@ function scene0(){
     side: THREE.DoubleSide,
   });
   let girlWall = new THREE.Mesh(wallGeo, girlWallMat);
-  girlWall.position.set(0, 24, 0);
+  girlWall.position.set(0, 50, 0);
   scenes[ind].add(girlWall);
 }
 function scene1(){
