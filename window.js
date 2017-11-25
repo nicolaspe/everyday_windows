@@ -11,8 +11,8 @@ let vrDisplay;    // variable for the display
 let vrButton;     // button to render in VR
 
 // environment variables
-let current = 0
-let scenes = [];
+let current = 0;
+let scenes  = [];
 let roomSize = 30;
 
 window.addEventListener('load', onLoad);
@@ -98,6 +98,7 @@ function onWindowResize(){
   let hei = window.innerHeight;
 
   effect.setSize(wid, hei);
+  renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(wid, hei);
 	camera.aspect = wid/hei;
   camera.updateProjectionMatrix();
@@ -126,27 +127,27 @@ function createEnvironment(){
   scene1();
 }
 function createLights(ind){
-  let p_light = new THREE.PointLight(0xffffff, 1, 1000, 2);
-  p_light.position.set(0, 0, 0);
+  let p_light = new THREE.PointLight(0xffffff, 1.5, 1000, 2);
+  p_light.position.set(0, 10, 0);
   scenes[ind].add( p_light );
 
   let str = 0.5;
   let d_light = new THREE.DirectionalLight(0xffffff, str);
-  scenes[ind].add( d_light );
+  // scenes[ind].add( d_light );
 }
 function createFloor(ind){
-  let floorGeo = new THREE.BoxGeometry(roomSize*4, 1, roomSize*4, 10, 2, 10);
-  let floorMat = new THREE.MeshPhongMaterial({
-    color: 0xd0d0d0,
-    specular: 0x000000,
-    flatShading: true,
-    wireframe: true,
+  // let floorGeo = new THREE.BoxGeometry(roomSize*4, 1, roomSize*4, 10, 2, 10);
+  let floorGeo = new THREE.CylinderGeometry(roomSize*4, roomSize*4, 1, 24);
+  let floorMat = new THREE.MeshLambertMaterial({
+    color: 0x666666,
+    emissive: 0x101010,
   });
   let planeF = new THREE.Mesh(floorGeo, floorMat);
   planeF.position.set(0, -roomSize/4, 0);
   scenes[ind].add(planeF);
 }
 function createRoom(ind){
+  // planes w/ images
   let plGeo = new THREE.PlaneGeometry(roomSize, roomSize, 10, 10);
   // images
   let windowMat = new THREE.MeshBasicMaterial({
@@ -172,6 +173,16 @@ function createRoom(ind){
     windowPlane.rotation.y = Math.PI/2 * Math.sin(i*Math.PI/2);
     scenes[ind].add(windowPlane);
   }
+
+  // room walls
+  let wallGeo = new THREE.CylinderGeometry(roomSize*5, roomSize*5, 80, 24, 20, true);
+  let wallMat = new THREE.MeshLambertMaterial({
+    color: 0xd0d0d0,
+    side: THREE.DoubleSide,
+  });
+  let wall = new THREE.Mesh(wallGeo, wallMat);
+  wall.position.set(0, 30, 0);
+  scenes[ind].add(wall);
 }
 function createSphere(ind, col){
   let spGeo = new THREE.SphereGeometry(1, 25, 25);
@@ -188,7 +199,7 @@ function createSphere(ind, col){
 function scene0(){
   let ind = 0;
 
-  let toySize = 5;
+  let toySize = 8;
   let boyNum  = 18;
   let girlNum = 21;
   // create geometry
@@ -203,8 +214,8 @@ function scene0(){
     });
     // position (only LEFT side)
     let rad   = 30 +Math.random()*5;
-    let angle = i*(Math.PI/boyNum) + Math.random()*0.1;
-    let posY = Math.random()*20 -10;
+    let angle = i*(Math.PI/boyNum) + Math.random()*0.05;
+    let posY = Math.random()*20 -5;
     let posX = rad * Math.sin(angle +Math.PI);
     let posZ = rad * Math.cos(angle +Math.PI);
     // create and add
@@ -224,7 +235,7 @@ function scene0(){
     // position (only RIGHT side)
     let rad   = 30 +Math.random()*5;
     let angle = i*(Math.PI/girlNum) + Math.random()*0.1;
-    let posY = Math.random()*20 -10;
+    let posY = Math.random()*20 -5;
     let posX = rad * Math.sin(angle);
     let posZ = rad * Math.cos(angle);
     // create and add
@@ -233,6 +244,26 @@ function scene0(){
     toy.rotation.y = angle +Math.PI;
     scenes[ind].add(toy);
   }
+
+  // COLORED WALL
+  let wallGeo = new THREE.CylinderGeometry( roomSize*4.5, roomSize*4.5, 100, 24, 20, true, 0, Math.PI );
+
+  let boyWallMat = new THREE.MeshLambertMaterial({
+    color: 0x3366ff,
+    side: THREE.DoubleSide,
+  });
+  let boyWall = new THREE.Mesh(wallGeo, boyWallMat);
+  boyWall.position.set(0, 24, 0);
+  boyWall.rotation.y = Math.PI;
+  scenes[ind].add(boyWall);
+
+  let girlWallMat = new THREE.MeshLambertMaterial({
+    color: 0xff1a75,
+    side: THREE.DoubleSide,
+  });
+  let girlWall = new THREE.Mesh(wallGeo, girlWallMat);
+  girlWall.position.set(0, 24, 0);
+  scenes[ind].add(girlWall);
 }
 function scene1(){
   let ind = 1;
