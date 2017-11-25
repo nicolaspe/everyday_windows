@@ -1,8 +1,6 @@
 // global threejs/VR variables
 let container;
 let renderer;
-let current;
-let scenes = [];
 let camera;
 let controls;
 let loader;
@@ -13,7 +11,9 @@ let vrDisplay;    // variable for the display
 let vrButton;     // button to render in VR
 
 // environment variables
-let size = 30;
+let current = 0
+let scenes = [];
+let roomSize = 30;
 
 window.addEventListener('load', onLoad);
 
@@ -35,7 +35,6 @@ function onLoad(){
 	scenes[3]  = new THREE.Scene();
 	scenes[4]  = new THREE.Scene();
 	scenes[5]  = new THREE.Scene();
-	current = 1;
 
   camera = new THREE.PerspectiveCamera(50, wid/hei, 0.1, 1000);
 	controls = new THREE.VRControls( camera );
@@ -123,6 +122,7 @@ function createEnvironment(){
     createRoom(i);
     createSphere(i, col[i]);
   }
+  scene0();
   scene1();
 }
 function createLights(ind){
@@ -135,7 +135,7 @@ function createLights(ind){
   scenes[ind].add( d_light );
 }
 function createFloor(ind){
-  let floorGeo = new THREE.BoxGeometry(size*4, 1, size*4, 10, 2, 10);
+  let floorGeo = new THREE.BoxGeometry(roomSize*4, 1, roomSize*4, 10, 2, 10);
   let floorMat = new THREE.MeshPhongMaterial({
     color: 0xd0d0d0,
     specular: 0x000000,
@@ -143,11 +143,11 @@ function createFloor(ind){
     wireframe: true,
   });
   let planeF = new THREE.Mesh(floorGeo, floorMat);
-  planeF.position.set(0, -size/4, 0);
+  planeF.position.set(0, -roomSize/4, 0);
   scenes[ind].add(planeF);
 }
 function createRoom(ind){
-  let plGeo = new THREE.PlaneGeometry(size, size, 10, 10);
+  let plGeo = new THREE.PlaneGeometry(roomSize, roomSize, 10, 10);
   // images
   let windowMat = new THREE.MeshBasicMaterial({
     map: loader.load("media/" + ind + "/window.png"),
@@ -165,10 +165,10 @@ function createRoom(ind){
     let rad = 10;
     let posX = rad * Math.sin(i*Math.PI/2);
     let posZ = rad * Math.cos(i*Math.PI/2);
-    personPlane.position.set(posX*6, size/4, posZ*6);
+    personPlane.position.set(posX*6, roomSize/4, posZ*6);
     personPlane.rotation.y = Math.PI/2 * Math.sin(i*Math.PI/2);
     scenes[ind].add(personPlane);
-    windowPlane.position.set(posX*8, size*.3, posZ*8);
+    windowPlane.position.set(posX*8, roomSize*.3, posZ*8);
     windowPlane.rotation.y = Math.PI/2 * Math.sin(i*Math.PI/2);
     scenes[ind].add(windowPlane);
   }
@@ -185,7 +185,58 @@ function createSphere(ind, col){
   scenes[ind].add(sphere);
 }
 // scenes
+function scene0(){
+  let ind = 0;
+
+  let toySize = 5;
+  let boyNum  = 18;
+  let girlNum = 21;
+  // create geometry
+  let toyGeo = new THREE.PlaneGeometry(toySize, toySize, 1, 1);
+  // BOY TOYS
+  for (let i = 1; i < boyNum+1; i++) {
+    // load toy as texture
+    let toyMat = new THREE.MeshBasicMaterial({
+      map: loader.load("media/0/boys" + i + ".png"),
+      side: THREE.DoubleSide,
+      transparent: true,
+    });
+    // position (only LEFT side)
+    let rad   = 30 +Math.random()*5;
+    let angle = i*(Math.PI/boyNum) + Math.random()*0.1;
+    let posY = Math.random()*20 -10;
+    let posX = rad * Math.sin(angle +Math.PI);
+    let posZ = rad * Math.cos(angle +Math.PI);
+    // create and add
+    let toy = new THREE.Mesh(toyGeo, toyMat);
+    toy.position.set(posX, posY, posZ);
+    toy.rotation.y = angle
+    scenes[ind].add(toy);
+  }
+  // GIRL TOYS
+  for (let i = 1; i < girlNum+1; i++) {
+    // load toy as texture
+    let toyMat = new THREE.MeshBasicMaterial({
+      map: loader.load("media/0/girls" + i + ".png"),
+      side: THREE.DoubleSide,
+      transparent: true,
+    });
+    // position (only RIGHT side)
+    let rad   = 30 +Math.random()*5;
+    let angle = i*(Math.PI/girlNum) + Math.random()*0.1;
+    let posY = Math.random()*20 -10;
+    let posX = rad * Math.sin(angle);
+    let posZ = rad * Math.cos(angle);
+    // create and add
+    let toy = new THREE.Mesh(toyGeo, toyMat);
+    toy.position.set(posX, posY, posZ);
+    toy.rotation.y = angle +Math.PI;
+    scenes[ind].add(toy);
+  }
+}
 function scene1(){
+  let ind = 1;
+
   let phraseSize = 15;
   let phraseNum  = 12;
   // create geometry
@@ -208,6 +259,6 @@ function scene1(){
     let phrase = new THREE.Mesh(phGeo, phMat);
     phrase.position.set(posX, posY, posZ);
     phrase.rotation.y = angle +Math.PI;
-    scenes[1].add(phrase);
+    scenes[ind].add(phrase);
   }
 }
