@@ -103,7 +103,9 @@ function onWindowResize(){
 	camera.aspect = wid/hei;
   camera.updateProjectionMatrix();
 }
-
+function changeScene(mode){
+  current = mode;
+}
 
 /*
  * === ENVIRONMENT CREATION ===
@@ -296,7 +298,6 @@ function scene1(){
     scenes[ind].add(phrase);
   }
 }
-
 function scene2(){
   let ind = 2;
 
