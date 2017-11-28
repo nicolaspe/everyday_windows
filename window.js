@@ -78,11 +78,11 @@ function animate(timestamp) {
   let delta = Math.min(timestamp - lastRenderTime, 500);
   lastRenderTime = timestamp;
 
-  if(vrDisplay.isPresenting){
+  if(vrDisplay.isPresenting){ // VR rendering
     controls.update();
     effect.render(scenes[current], camera);
     vrDisplay.requestAnimationFrame(animate);
-  } else {
+  } else {  // browser rendering
 		controls.update();
     renderer.render(scenes[current], camera);
     window.requestAnimationFrame(animate);
