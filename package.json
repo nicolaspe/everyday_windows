@@ -1,0 +1,33 @@
+{
+  "name": "everyday_windows",
+  "version": "0.0.3",
+  "description": "Reflection on different oppressions inflicted by society. ITP fall 2017",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nicolaspe/everyday_windows.git"
+  },
+  "keywords": [
+    "threejs",
+    "webvr",
+    "vr",
+    "feminism"
+  ],
+  "author": "Ilana Bonder + Nicolas Pena-Escarpentier",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nicolaspe/everyday_windows/issues"
+  },
+  "homepage": "https://github.com/nicolaspe/everyday_windows#readme",
+  "dependencies": {
+    "express": "^4.16.2",
+    "socket.io": "^2.0.4"
+  }
+}

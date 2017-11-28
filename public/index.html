@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<title>Everyday Windows</title>
 
-		<!-- <link rel="stylesheet" href="window_style.css"> -->
+		<link rel="stylesheet" href="window_style.css">
 
 		<!-- Origin Trial Token, feature = WebVR (For Chrome M62+), origin = https://nicolaspe.github.io, expires = 2017-12-20 -->
 		<meta http-equiv="origin-trial" data-feature="WebVR (For Chrome M62+)" data-expires="2017-12-20" content="Agy7KYMHQ1403Mfc7cekZZwrOcRMGMLFpHfFXf8KBdWpAN3e3KQjoboR+ZUF+5Q0Xed/xbRCelCqOof0ntfFIgcAAABYeyJvcmlnaW4iOiJodHRwczovL25pY29sYXNwZS5naXRodWIuaW86NDQzIiwiZmVhdHVyZSI6IldlYlZSMS4xTTYyIiwiZXhwaXJ5IjoxNTEzNzM0MjAxfQ==">
@@ -14,6 +14,7 @@
 		<script src="lib/VREffect.js"></script>
 		<script src="lib/WebVR.js"></script>
 		<script src="lib/webvr-polyfill.js"></script>
+		<script src="/socket.io/socket.io.js"></script>
 
 	</head>
 	<body>
@@ -26,8 +27,8 @@
 		<script src="window.js"></script>
 		<!-- receiving web-socket script -->
 		<script type="text/javascript">
-			// var socket = io();
-			// socket.on('change scene', changeScene);
+			var socket = io();
+			socket.on('change scene', changeScene);
 		</script>
 	</body>
 </html>
