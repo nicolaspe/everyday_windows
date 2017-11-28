@@ -125,6 +125,7 @@ function createEnvironment(){
   }
   scene0();
   scene1();
+  scene2();
 }
 function createLights(ind){
   let p_light = new THREE.PointLight(0xffffff, 1.5, 1000, 2);
@@ -293,5 +294,34 @@ function scene1(){
     phrase.position.set(posX, posY, posZ);
     phrase.rotation.y = angle +Math.PI;
     scenes[ind].add(phrase);
+  }
+}
+
+function scene2(){
+  let ind = 2;
+
+  let imagesSize = 15;
+  let imagesNum  = 48;
+  // create geometry
+  let phGeo = new THREE.PlaneGeometry(imagesSize, imagesSize, 1, 1);
+  for (let i = 0; i < imagesNum; i++) {
+    // load image as texture
+    let phMat = new THREE.MeshBasicMaterial({
+      // map: loader.load("media/1/gifs/" + i + ".gif"),
+      map: loader.load("media/2/images/" + i + ".png"),
+      side: THREE.DoubleSide,
+      transparent: true,
+    });
+    // position
+    let rad   = 30 +Math.random()*10;
+    let angle = i*(2*Math.PI/imagesNum) + Math.random()*0.2;
+    let posY = Math.random()*10;
+    let posX = rad * Math.sin(angle);
+    let posZ = rad * Math.cos(angle);
+    // create and add
+    let image = new THREE.Mesh(phGeo, phMat);
+    image.position.set(posX, posY, posZ);
+    image.rotation.y = angle +Math.PI;
+    scenes[ind].add(image);
   }
 }
