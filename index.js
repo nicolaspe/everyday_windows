@@ -29,3 +29,11 @@ io.on('connection', function(socket){
 		console.log("received selection: " + _scene);
 	});
 });
+
+app.post('/scene', (req, res) => {
+	console.log(req.body);
+	_scene = req.body;
+	io.emit('change scene', _scene);
+	console.log("received selection: " + _scene);
+	res.sendStatus(200);
+});
