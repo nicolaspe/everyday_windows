@@ -12,7 +12,7 @@ const char ssid[] = "npe_WiFi";
 const char pass[] = "npescarpentier.1990";
 
 int status = WL_IDLE_STATUS;
-int port = 31542;
+int port = 12591;
 WiFiSSLClient client;
 char server[] = "everyday-windows.herokuapp.com";
 
@@ -172,6 +172,8 @@ void postMessage(int msg){
     }
     client.println("Connection: close");
     client.println();
+  } else {
+    Serial.println("Connection failed D:");
   }
   delay(500);
 }
