@@ -1,3 +1,4 @@
+#include <ArduinoHttpClient.h>
 #include <SPI.h>
 #include <WiFi101.h>
 
@@ -6,15 +7,18 @@
 
 // Arduino MKR1000 MAC address: F8:F0:5:F5:D6:19
 
+// WiFi settings
 //const char ssid[] = "itpsandbox";
 //const char pass[] = "NYU+s0a!P?";
 const char ssid[] = "npe_WiFi";
 const char pass[] = "npescarpentier.1990";
 
+WiFiClient wifi_client;
 int status = WL_IDLE_STATUS;
 int port = 12591;
-WiFiSSLClient client;
 char server[] = "everyday-windows.herokuapp.com";
+char server2[] = "www.arduino.cc";
+WebSocketClient socket_client = WebSocketClient(wifi_client, server, port);
 
 void setup() {
   Serial.begin(9600);
@@ -61,6 +65,9 @@ void connectWiFi(){
     Serial.print("status: ");
     Serial.println(status);
   }
+
+  // open socket connection
+  socket_client.begin(server, port, "/");
 }
 
 void printMacAddress() {
@@ -127,7 +134,8 @@ void loop() {
   int butt = digitalRead(button);
   if(butt == HIGH){
     digitalWrite(led, HIGH);
-    postMessage(2);
+    testMessage();
+//    postMessage(2);
   } else {
     digitalWrite(led, LOW);
   }
@@ -141,40 +149,73 @@ void loop() {
  * ===== LOOP FUNCTIONS ======
  * =========================== */
 
-void postMessage(int msg){
-  Serial.println("\nStarting connection to server...");
-  // if you get a connection, report back via serial:
-  if (client.connect(server, port)) {
-    Serial.println("connected to server");
-    // POST message
-    switch(msg){
-      case 0:
-        client.println("POST /scene 0");
-        break;
-      case 1:
-        client.println("POST /scene 1");
-        break;
-      case 2:
-        client.println("POST /scene 2");
-        break;
-      case 3:
-//        client.println("POST /scene 3");
-        break;
-      case 4:
-//        client.println("POST /scene 4");
-        break;
-      case 5:
-//        client.println("POST /scene 5");
-        break;
-      case 6:
-//        client.println("POST /scene 6");
-        break;
-    }
-    client.println("Connection: close");
-    client.println();
-  } else {
-    Serial.println("Connection failed D:");
+void testMessage(){
+  Serial.println("Attempting websocket connection");
+  if(!socket_client.connected()){
+    socket_client.begin();
   }
-  delay(500);
+  if (socket_client.connected()) {
+    socket_client.beginMessage(TYPE_TEXT);
+    socket_client.print("select");
+    socket_client.print(2);
+    socket_client.endMessage();
+  }
+  else {
+    Serial.println("connection failed");
+  }
 }
+
+
+//void emitMessage(int msg){
+//  Serial.println("\nStarting connection to server...");
+//  // if you get a connection, report back via serial:
+//  if (client.connect(server, port)) {
+//    Serial.println("connected to server");
+//    // Handshake
+//    
+//    client.println("Connection: close");
+//    client.println();
+//  } else {
+//    Serial.println("Connection failed D:");
+//  }
+//  delay(500);
+//}
+//
+//
+//void postMessage(int msg){
+//  Serial.println("\nStarting connection to server...");
+//  // if you get a connection, report back via serial:
+//  if (client.connect(server, port)) {
+//    Serial.println("connected to server");
+//    // POST message
+//    switch(msg){
+//      case 0:
+//        client.println("POST /scene 0");
+//        break;
+//      case 1:
+//        client.println("POST /scene 1");
+//        break;
+//      case 2:
+//        client.println("POST /scene 2");
+//        break;
+//      case 3:
+////        client.println("POST /scene 3");
+//        break;
+//      case 4:
+////        client.println("POST /scene 4");
+//        break;
+//      case 5:
+////        client.println("POST /scene 5");
+//        break;
+//      case 6:
+////        client.println("POST /scene 6");
+//        break;
+//    }
+//    client.println("Connection: close");
+//    client.println();
+//  } else {
+//    Serial.println("Connection failed D:");
+//  }
+//  delay(500);
+//}
 
