@@ -27,7 +27,7 @@
 
 		<!-- receiving web-socket script -->
 		<script type="text/javascript">
-			var ws = new WebSocket('ws://' +window.location.host);
+			var ws = new WebSocket('wss://' +window.location.host);
 			ws.onmessage = function(msg){
 				// check the message
 				let intComing = parseInt(msg.data);
