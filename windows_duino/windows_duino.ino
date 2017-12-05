@@ -50,7 +50,7 @@ int window_colors[7][3] = {{255, 0, 102},   // w0: pink
                           {204, 0, 0},      // w5: dark red
                           {255, 255, 255}}; // vr: white
 
-
+int selected = 0;
 
 /* ===========================
  * ========== SETUP ==========
@@ -61,6 +61,7 @@ void setup() {
   while (!Serial) { // needed to keep leonardo/micro from starting too fast!
     delay(100);
   }
+  Serial.println("Initializing...");
 
 
   // find the cap sensor
@@ -92,14 +93,16 @@ void loop() {
   for (uint8_t i=0; i<12; i++) {
     // only act ON touch
     if ((currtouched & _BV(i)) && !(lasttouched & _BV(i)) ) {
-      Serial.print(i);
+      selected = i;
+      Serial.print(selected);
       Serial.println(" touched");
-      sendWindow(i);
       colorWipe();
-      windowLight(i);
+      windowLight(selected);
       windowLight(6);
     }
   }
+  
+  sendWindow(selected);
 
   // reset our state
   lasttouched = currtouched;
