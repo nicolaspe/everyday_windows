@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Everyday Windows - CONTROLS</title>
+
+		<link rel="stylesheet" href="window_style.css">
+
+		<script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+		<script src="/socket.io/socket.io.js"></script>
+	</head>
+	<body>
+
+		<div class="content">
+			<h1>CONTROLS! :D</h1>
+
+			<button class="scelector" id="scene_0">Scene [0]</button>
+			<button class="scelector" id="scene_1">Scene [1]</button>
+			<button class="scelector" id="scene_2">Scene [2]</button>
+			<button class="scelector" id="scene_3">Scene [3]</button>
+			<button class="scelector" id="scene_4">Scene [4]</button>
+			<button class="scelector" id="scene_5">Scene [5]</button>
+		</div>
+
+		<script>
+			let out_socket = io();
+
+			$("#scene_0").click(() => {
+				selectScene(0);
+			});
+			$("#scene_1").click(() => {
+				selectScene(1);
+			});
+			$("#scene_2").click(() => {
+				selectScene(2);
+			});
+
+			function selectScene(mode){
+				console.log("select scene: " + mode);
+				out_socket.emit('select', mode);
+			}
+		</script>
+	</body>
+</html>

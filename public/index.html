@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Everyday Windows</title>
+
+		<link rel="stylesheet" href="window_style.css">
+
+		<!-- Origin Trial Token, feature = WebVR (For Chrome M62+), origin = https://nicolaspe.github.io, expires = 2017-12-20 -->
+		<meta http-equiv="origin-trial" data-feature="WebVR (For Chrome M62+)" data-expires="2017-12-20" content="Agy7KYMHQ1403Mfc7cekZZwrOcRMGMLFpHfFXf8KBdWpAN3e3KQjoboR+ZUF+5Q0Xed/xbRCelCqOof0ntfFIgcAAABYeyJvcmlnaW4iOiJodHRwczovL25pY29sYXNwZS5naXRodWIuaW86NDQzIiwiZmVhdHVyZSI6IldlYlZSMS4xTTYyIiwiZXhwaXJ5IjoxNTEzNzM0MjAxfQ==">
+
+		<script src="lib/three.js"></script>
+		<script src="lib/VRControls.js"></script>
+		<script src="lib/VREffect.js"></script>
+		<script src="lib/WebVR.js"></script>
+		<script src="lib/webvr-polyfill.js"></script>
+		<script src="/socket.io/socket.io.js"></script>
+	</head>
+	<body>
+		<div class="container">
+			<div id="sketch"></div>
+
+			<div id="vr_button"></div>
+		</div>
+
+		<script src="window.js"></script>
+
+		<!-- receiving web-socket script -->
+		<script type="text/javascript">
+			var ws = new WebSocket('wss://' +window.location.host);
+			ws.onmessage = function(msg){
+				// check the message
+				let intComing = parseInt(msg.data);
+				if(intComing != NaN && intComing>=0 && intComing<=5){
+					changeScene(intComing);
+					console.log("scene changed: " + intComing);
+				}
+			};
+		</script>
+	</body>
+</html>

@@ -1,0 +1,18 @@
+html{
+	margin: 0px;
+	padding: 0px;
+}
+
+body {
+	margin: 0px;
+	padding: 0px;
+	font-family: Helvetica, Tahoma, Arial, sans-serif;
+}
+
+.content {
+	padding: 10px;
+}
+
+.scelector {
+	padding: 5px;
+}
