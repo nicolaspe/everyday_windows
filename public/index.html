@@ -24,10 +24,18 @@
 		</div>
 
 		<script src="window.js"></script>
+
 		<!-- receiving web-socket script -->
 		<script type="text/javascript">
-			var socket = io();
-			socket.on('change scene', changeScene);
+			var ws = new WebSocket('ws://' +window.location.host);
+			ws.onmessage = function(msg){
+				// check the message
+				let intComing = parseInt(msg.data);
+				if(intComing != NaN && intComing>=0 && intComing<=5){
+					changeScene(intComing);
+					console.log("scene changed: " + intComing);
+				}
+			};
 		</script>
 	</body>
 </html>

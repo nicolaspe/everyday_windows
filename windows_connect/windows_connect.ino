@@ -2,8 +2,8 @@
 #include <SPI.h>
 #include <WiFi101.h>
 
-# define button 8
-# define led 7
+# define button 9
+# define led 8
 
 // Arduino MKR1000 MAC address: F8:F0:5:F5:D6:19
 
@@ -13,24 +13,30 @@
 const char ssid[] = "npe_WiFi";
 const char pass[] = "npescarpentier.1990";
 
-WiFiClient wifi_client;
-int status = WL_IDLE_STATUS;
-int port = 12591;
-char server[] = "everyday-windows.herokuapp.com";
+WiFiClient client;
+//int port = 80;
+//char server[] = "everyday-windows.herokuapp.com";
+int port = 8082;
+char server[] = "138.197.122.214";
 char server2[] = "www.arduino.cc";
-WebSocketClient socket_client = WebSocketClient(wifi_client, server, port);
+//WebSocketClient socket_client = WebSocketClient(wifi_client, server, port);
+
+int last = LOW;
+
+
 
 void setup() {
   Serial.begin(9600);
 
   while(!Serial){
-    ; // wait for serial port to connect
+    delay(100); // wait for serial port to connect
   }
 
   pinMode(button, INPUT);
   pinMode(led, OUTPUT);
   
   connectWiFi();
+  connectServer();
 }
 
 
@@ -45,73 +51,26 @@ void connectWiFi(){
     while(true);  // don't continue
   }
 
-  // print MAC address
-  Serial.print("MAC address: ");
-  printMacAddress();
-
   // attempt to connect
-  while(status != WL_CONNECTED){
-    Serial.println();
-    
-    listNetworks();
-    Serial.println();
-    
+  while(WiFi.status() != WL_CONNECTED){
     Serial.print("Attempting to connect to SSID: ");
     Serial.println(ssid);
-    status = WiFi.begin(ssid, pass);
-
-    // wait 5 seconds to verify connection
-    delay(5000);
-    Serial.print("status: ");
-    Serial.println(status);
+    WiFi.begin(ssid, pass);
   }
-
-  // open socket connection
-  socket_client.begin(server, port, "/");
+  
+  Serial.print("IP Address: ");
+  Serial.println(WiFi.localIP());
 }
 
-void printMacAddress() {
-  // the MAC address of your Wifi shield
-  byte mac[6];
 
-  // print your MAC address:
-  WiFi.macAddress(mac);
-  Serial.print("MAC: ");
-  Serial.print(mac[5], HEX);
-  Serial.print(":");
-  Serial.print(mac[4], HEX);
-  Serial.print(":");
-  Serial.print(mac[3], HEX);
-  Serial.print(":");
-  Serial.print(mac[2], HEX);
-  Serial.print(":");
-  Serial.print(mac[1], HEX);
-  Serial.print(":");
-  Serial.println(mac[0], HEX);
-}
+void connectServer(){
+  Serial.print("Attempting to connect to: ");
+  Serial.println(server);
 
-void listNetworks() {
-  // scan for nearby networks:
-  int numSsid = WiFi.scanNetworks();
-  if (numSsid == -1) {
-    Serial.println("Couldn't get a wifi connection");
-    while (true);
-  }
-
-  // print the list of networks seen:
-  Serial.print("number of available networks:");
-  Serial.println(numSsid);
-
-  // print the network number and name for each network found:
-  for (int i = 0; i < numSsid; i++) {
-    Serial.print(i);
-    Serial.print(") ");
-    Serial.print(WiFi.SSID(i));
-    Serial.print("\tSignal: ");
-    Serial.print(WiFi.RSSI(i));
-    Serial.print(" dBm");
-    Serial.println();
-    Serial.flush();
+  if(client.connect(server, port)){
+    Serial.println("Connected to server!");
+  } else {
+    Serial.println("Failed to connect");
   }
 }
 
@@ -123,24 +82,29 @@ void listNetworks() {
  
 void loop() {
   // recheck connection and attempt to reconnect
-  if(status != WL_CONNECTED){
+  if(WiFi.status() != WL_CONNECTED){
     Serial.print("WiFi disconnected! D:");
     connectWiFi();
   } 
-//  else {
-//    Serial.println("connected, no probs :D");
-//  }
+
 
   int butt = digitalRead(button);
-  if(butt == HIGH){
+  if(butt == HIGH && last == LOW){
     digitalWrite(led, HIGH);
+    Serial.println("BUTTON PRESSEDDDDD");
     testMessage();
 //    postMessage(2);
   } else {
     digitalWrite(led, LOW);
   }
-  //  Serial.print("Button: ");
-  //  Serial.println(butt);
+
+  last = butt;
+  
+  // read incoming data
+  if(client.available()){
+    String result = client.readString();
+    Serial.print(result);
+  }
 }
 
 
@@ -150,72 +114,19 @@ void loop() {
  * =========================== */
 
 void testMessage(){
-  Serial.println("Attempting websocket connection");
-  if(!socket_client.connected()){
-    socket_client.begin();
+  Serial.println("Msg function started");
+  if(!client.connected()){
+    Serial.println("Need to reconnect...");
+    connectServer();
   }
-  if (socket_client.connected()) {
-    socket_client.beginMessage(TYPE_TEXT);
-    socket_client.print("select");
-    socket_client.print(2);
-    socket_client.endMessage();
+  if (client.connected()) {
+    Serial.println("Attempting message send");
+    client.print("select");         // send socket key
+    client.println(2);              // send socket value
   }
   else {
     Serial.println("connection failed");
   }
+  Serial.println("Msg function ended");
 }
-
-
-//void emitMessage(int msg){
-//  Serial.println("\nStarting connection to server...");
-//  // if you get a connection, report back via serial:
-//  if (client.connect(server, port)) {
-//    Serial.println("connected to server");
-//    // Handshake
-//    
-//    client.println("Connection: close");
-//    client.println();
-//  } else {
-//    Serial.println("Connection failed D:");
-//  }
-//  delay(500);
-//}
-//
-//
-//void postMessage(int msg){
-//  Serial.println("\nStarting connection to server...");
-//  // if you get a connection, report back via serial:
-//  if (client.connect(server, port)) {
-//    Serial.println("connected to server");
-//    // POST message
-//    switch(msg){
-//      case 0:
-//        client.println("POST /scene 0");
-//        break;
-//      case 1:
-//        client.println("POST /scene 1");
-//        break;
-//      case 2:
-//        client.println("POST /scene 2");
-//        break;
-//      case 3:
-////        client.println("POST /scene 3");
-//        break;
-//      case 4:
-////        client.println("POST /scene 4");
-//        break;
-//      case 5:
-////        client.println("POST /scene 5");
-//        break;
-//      case 6:
-////        client.println("POST /scene 6");
-//        break;
-//    }
-//    client.println("Connection: close");
-//    client.println();
-//  } else {
-//    Serial.println("Connection failed D:");
-//  }
-//  delay(500);
-//}
 
