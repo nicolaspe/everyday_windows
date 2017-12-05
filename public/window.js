@@ -13,6 +13,7 @@ let vrButton;     // button to render in VR
 // environment variables
 let current = 0;
 let scenes  = [];
+let col = [];
 let roomSize = 30;
 
 window.addEventListener('load', onLoad);
@@ -112,25 +113,31 @@ function changeScene(mode){
  */
 // create graphic objects
 function createEnvironment(){
-  let col = [];
-  col[0] = 0xff0000;
-  col[1] = 0x00ff00;
-  col[2] = 0x0000ff;
+  col[0] = new THREE.Color("rgb(255,   0, 102)");
+  col[1] = new THREE.Color("rgb(102, 102, 255)");
+  col[2] = new THREE.Color("rgb(255, 204,   0)");
+  col[3] = new THREE.Color("rgb(  0,   0, 153)");
+  col[4] = new THREE.Color("rgb(  0, 255, 153)");
+  col[5] = new THREE.Color("rgb(204,   0,   0)");
 
-  for (let i = 0; i < 3; i++) {
+
+  for (let i = 0; i < 6; i++) {
     scenes[i].background = new THREE.Color( 0x555555 );
     // scenes[i].background = new THREE.Color( 0xeeeeee );
     createLights(i);
     createFloor(i);
     createRoom(i);
-    createSphere(i, col[i]);
+    // createSphere(i, col[i]);
   }
   scene0();
   scene1();
   scene2();
+  scene3();
+  scene4();
+  scene5();
 }
 function createLights(ind){
-  let p_light = new THREE.PointLight(0xffffff, 1.5, 1000, 2);
+  let p_light = new THREE.PointLight(col[ind], 1.5, 1000, 2);
   p_light.position.set(0, 10, 0);
   scenes[ind].add( p_light );
 
@@ -325,4 +332,88 @@ function scene2(){
     image.rotation.y = angle +Math.PI;
     scenes[ind].add(image);
   }
+}
+function scene3(){
+  let ind = 3;
+
+  let imagesSize = 15;
+  let imagesNum  = 6;
+  // create geometry
+  let phGeo = new THREE.PlaneGeometry(imagesSize, imagesSize, 1, 1);
+  for (let i = 0; i < imagesNum; i++) {
+    // load image as texture
+    let phMat = new THREE.MeshBasicMaterial({
+      // map: loader.load("media/1/gifs/" + i + ".gif"),
+      map: loader.load("media/3/" + i + ".png"),
+      side: THREE.DoubleSide,
+      transparent: true,
+    });
+    // position
+    let rad   = 30 +Math.random()*10;
+    let angle = i*(2*Math.PI/imagesNum) + Math.random()*0.2;
+    let posY = Math.random()*10;
+    let posX = rad * Math.sin(angle);
+    let posZ = rad * Math.cos(angle);
+    // create and add
+    let image = new THREE.Mesh(phGeo, phMat);
+    image.position.set(posX, posY, posZ);
+    image.rotation.y = angle +Math.PI;
+    scenes[ind].add(image);
+  }
+}
+function scene4(){
+  let ind = 4;
+
+  // let imagesSize = 15;
+  // let imagesNum  = 48;
+  // // create geometry
+  // let phGeo = new THREE.PlaneGeometry(imagesSize, imagesSize, 1, 1);
+  // for (let i = 0; i < imagesNum; i++) {
+  //   // load image as texture
+  //   let phMat = new THREE.MeshBasicMaterial({
+  //     // map: loader.load("media/1/gifs/" + i + ".gif"),
+  //     map: loader.load("media/2/images/" + i + ".png"),
+  //     side: THREE.DoubleSide,
+  //     transparent: true,
+  //   });
+  //   // position
+  //   let rad   = 30 +Math.random()*10;
+  //   let angle = i*(2*Math.PI/imagesNum) + Math.random()*0.2;
+  //   let posY = Math.random()*10;
+  //   let posX = rad * Math.sin(angle);
+  //   let posZ = rad * Math.cos(angle);
+  //   // create and add
+  //   let image = new THREE.Mesh(phGeo, phMat);
+  //   image.position.set(posX, posY, posZ);
+  //   image.rotation.y = angle +Math.PI;
+  //   scenes[ind].add(image);
+  // }
+}
+function scene5(){
+  let ind = 5;
+
+  // let imagesSize = 15;
+  // let imagesNum  = 48;
+  // // create geometry
+  // let phGeo = new THREE.PlaneGeometry(imagesSize, imagesSize, 1, 1);
+  // for (let i = 0; i < imagesNum; i++) {
+  //   // load image as texture
+  //   let phMat = new THREE.MeshBasicMaterial({
+  //     // map: loader.load("media/1/gifs/" + i + ".gif"),
+  //     map: loader.load("media/2/images/" + i + ".png"),
+  //     side: THREE.DoubleSide,
+  //     transparent: true,
+  //   });
+  //   // position
+  //   let rad   = 30 +Math.random()*10;
+  //   let angle = i*(2*Math.PI/imagesNum) + Math.random()*0.2;
+  //   let posY = Math.random()*10;
+  //   let posX = rad * Math.sin(angle);
+  //   let posZ = rad * Math.cos(angle);
+  //   // create and add
+  //   let image = new THREE.Mesh(phGeo, phMat);
+  //   image.position.set(posX, posY, posZ);
+  //   image.rotation.y = angle +Math.PI;
+  //   scenes[ind].add(image);
+  // }
 }
