@@ -13,10 +13,10 @@
  * =========================== */
 
 // internet connection initialization
-//const char server[] = "138.197.122.214";  // server address
-//int port = 8090;                          // port number
-const char server[] = "everyday-windows.herokuapp.com";  // server address
-int port = 80;                            // port number
+const char server[] = "138.197.122.214";  // server address
+int port = 8090;                          // port number
+//const char server[] = "everyday-windows.herokuapp.com";  // server address
+//int port = 80;                            // port number
 WiFiClient wifiClient;                    // wifi client
 WebSocketClient webSocket = WebSocketClient(wifiClient, server, port);  // websocket
 
@@ -101,10 +101,11 @@ void loop() {
       colorWipe();
       windowLight(selected);
       windowLight(6);
+      for (int j=0; j<3; j++){
+        sendWindow(selected);
+      }
     }
   }
-  
-  sendWindow(selected);
 
   // reset our state
   lasttouched = currtouched;
