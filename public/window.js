@@ -337,13 +337,12 @@ function scene3(){
   let ind = 3;
 
   let imagesSize = 15;
-  let imagesNum  = 6;
+  let imagesNum  = 8;
   // create geometry
   let phGeo = new THREE.PlaneGeometry(imagesSize, imagesSize, 1, 1);
   for (let i = 0; i < imagesNum; i++) {
     // load image as texture
     let phMat = new THREE.MeshBasicMaterial({
-      // map: loader.load("media/1/gifs/" + i + ".gif"),
       map: loader.load("media/3/" + i + ".png"),
       side: THREE.DoubleSide,
       transparent: true,
@@ -371,8 +370,7 @@ function scene4(){
   // for (let i = 0; i < imagesNum; i++) {
   //   // load image as texture
   //   let phMat = new THREE.MeshBasicMaterial({
-  //     // map: loader.load("media/1/gifs/" + i + ".gif"),
-  //     map: loader.load("media/2/images/" + i + ".png"),
+  //     map: loader.load("media/4/" + i + ".png"),
   //     side: THREE.DoubleSide,
   //     transparent: true,
   //   });
@@ -399,8 +397,7 @@ function scene5(){
   // for (let i = 0; i < imagesNum; i++) {
   //   // load image as texture
   //   let phMat = new THREE.MeshBasicMaterial({
-  //     // map: loader.load("media/1/gifs/" + i + ".gif"),
-  //     map: loader.load("media/2/images/" + i + ".png"),
+  //     map: loader.load("media/5/" + i + ".png"),
   //     side: THREE.DoubleSide,
   //     transparent: true,
   //   });
