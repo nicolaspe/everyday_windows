@@ -4,8 +4,6 @@
 #include <ArduinoHttpClient.h>
 #include "wifi_config.h"
 #include <Adafruit_NeoPixel.h>
-#include <Wire.h>
-#include <Adafruit_MPR121.h>
 
 
 /* ===========================
@@ -15,21 +13,14 @@
 // internet connection initialization
 const char server[] = "138.197.122.214";  // server address
 int port = 8090;                          // port number
-//const char server[] = "everyday-windows.herokuapp.com";  // server address
-//int port = 80;                          // port number
 WiFiClient wifiClient;                    // wifi client
 WebSocketClient webSocket = WebSocketClient(wifiClient, server, port);  // websocket
 
 
-// cap sensor initialization
-#ifndef _BV
-  #define _BV(bit) (1<<(bit))
-#endif
-Adafruit_MPR121 cap = Adafruit_MPR121();
-// pin tracking
-uint16_t lasttouched = 0;
-uint16_t currtouched = 0;
-
+// buttons initialization
+bool buttonLast[] = {true, true, true, true, true, true};
+int buttons[] = {2, 3, 4, 5, 6, 7};
+int buttonLED = 9;
 
 // neopixels initialization
 #define NEOPIN    7   // pin of neopixels
@@ -68,13 +59,11 @@ void setup() {
   }
   Serial.println("Initializing...");
 
-
-  // find the cap sensor
-  if (!cap.begin(0x5A)) {
-    Serial.println("MPR121 not found, check wiring?");
-    while (1);
+  
+  for(int i=0; i<6; i++){
+    pinMode(buttons[i], INPUT);
   }
-  Serial.println("MPR121 found!");
+  pinMode(buttonLED, OUTPUT);
 
 
   // initialize neopixel library
@@ -93,31 +82,18 @@ void setup() {
  * ========== LOOP ===========
  * =========================== */
 void loop() {
-  // Get the currently touched pads
-  currtouched = cap.touched();
   
-  for (uint8_t i=0; i<6; i++) {
+  for (int i=0; i<6; i++) {
+    int buttonCurr = digitalRead(buttons[i]);
     // only act ON touch
-    if ((currtouched & _BV(i)) && !(lasttouched & _BV(i)) ) {
-      selected = i;
-      Serial.print(selected);
-      Serial.println(" touched");
-      // change lights
-      colorWipe();
-      windowLight(selected);
-      windowLight(6);
+    if (buttonLast[i] && !buttonCurr) {
       // send msg to server
       for (int j=0; j<3; j++){
         sendWindow(selected);
       }
     }
-    // if it *was* touched and now *isnt*, alert!
-    if (!(currtouched & _BV(i)) && (lasttouched & _BV(i)) ) {
-      Serial.print(i); Serial.println(" released");
-    }
+    buttonLast[i] = buttonCurr;
   } 
-  // reset touched state
-  lasttouched = currtouched;
 
   // send socket data according to the interval
   unsigned long currTime = millis();
@@ -125,6 +101,10 @@ void loop() {
     prevTime = currTime;
     sendWindow(selected);
   }
+
+  // pulsating button led
+  float pulseVal = (sin( (currTime%180)/PI )+1)/2 *255;
+  analogWrite(buttonLED, pulseVal);
 }
 
 
