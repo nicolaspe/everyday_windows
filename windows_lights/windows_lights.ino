@@ -10,16 +10,15 @@
 #define NUMPIXELS 29  // # of neopixels attached
 Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, NEOPIN, NEO_GRB + NEO_KHZ800);
 
-int delayval = 500; // delay for half a second
+int delayval = 100; // delay for half a second
 
-int window_pixels[7][3] = {{4, 5,6},        // w0
-                          {7, 8, 9},        // w1
-                          {10, 11, 12},     // w2
-                          {19, 20, 21},     // w3
-                          {16, 17, 18},     // w4
-                          {13, 14, 15},     // w5
-                          {1, 2, 3}};       // vr
-                        
+int window_pixels[7][3] = {{4, 4, 4},       // w0
+                          {5, 5, 5},        // w1
+                          {6, 6, 6},        // w2
+                          {9, 9, 9},        // w3
+                          {8, 8, 8},        // w4
+                          {7, 7, 7},        // w5
+                          {1, 2, 3}};       // vr        
 int window_colors[7][3] = {{255, 0, 102},   // w0: pink
                           {102, 102, 255},  // w1: violet
                           {255, 204, 0},    // w2: yellorange

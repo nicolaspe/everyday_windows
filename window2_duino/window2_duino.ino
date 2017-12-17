@@ -19,11 +19,11 @@ WebSocketClient webSocket = WebSocketClient(wifiClient, server, port);  // webso
 
 // buttons initialization
 bool buttonLast[] = {true, true, true, true, true, true};
-int buttons[] = {2, 3, 4, 5, 6, 7};
-int buttonLED = 9;
+int buttons[] = {7, 8, 9, 10, 11, 12};
+int buttonLED = 5;
 
 // neopixels initialization
-#define NEOPIN    7   // pin of neopixels
+#define NEOPIN    6   // pin of neopixels
 #define NUMPIXELS 10  // # of neopixels attached
 Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, NEOPIN, NEO_GRB + NEO_KHZ800);
 int delayval = 500;   // delay for half a second
