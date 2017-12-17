@@ -113,21 +113,19 @@ function changeScene(mode){
  */
 // create graphic objects
 function createEnvironment(){
-  col[0] = new THREE.Color("rgb(255,   0, 102)");
-  col[1] = new THREE.Color("rgb(102, 102, 255)");
+  col[0] = new THREE.Color("rgb(255,   0, 152)");
+  col[1] = new THREE.Color("rgb(152, 102, 255)");
   col[2] = new THREE.Color("rgb(255, 204,   0)");
-  col[3] = new THREE.Color("rgb(  0,   0, 153)");
-  col[4] = new THREE.Color("rgb(  0, 255, 153)");
-  col[5] = new THREE.Color("rgb(204,   0,   0)");
+  col[3] = new THREE.Color("rgb( 50,  50, 230)");
+  col[4] = new THREE.Color("rgb( 20, 255, 173)");
+  col[5] = new THREE.Color("rgb(255,  40,  40)");
 
 
   for (let i = 0; i < 6; i++) {
     scenes[i].background = new THREE.Color( 0x555555 );
-    // scenes[i].background = new THREE.Color( 0xeeeeee );
     createLights(i);
     createFloor(i);
     createRoom(i);
-    // createSphere(i, col[i]);
   }
   scene0();
   scene1();
@@ -193,17 +191,6 @@ function createRoom(ind){
   let wall = new THREE.Mesh(wallGeo, wallMat);
   wall.position.set(0, 230, 0);
   scenes[ind].add(wall);
-}
-function createSphere(ind, col){
-  let spGeo = new THREE.SphereGeometry(1, 25, 25);
-	let spMat = new THREE.MeshPhongMaterial({
-		color: col,
-		// emissive: 0xffffff,
-		flatShading: true,
-	});
-  let sphere = new THREE.Mesh(spGeo, spMat);
-  sphere.position.set(0, 0, -20);
-  scenes[ind].add(sphere);
 }
 // scenes
 function scene0(){
@@ -337,7 +324,7 @@ function scene3(){
   let ind = 3;
 
   let imagesSize = 15;
-  let imagesNum  = 8;
+  let imagesNum  = 10;
   // create geometry
   let phGeo = new THREE.PlaneGeometry(imagesSize, imagesSize, 1, 1);
   for (let i = 0; i < imagesNum; i++) {
@@ -364,7 +351,7 @@ function scene4(){
   let ind = 4;
 
   // let imagesSize = 15;
-  // let imagesNum  = 48;
+  // let imagesNum  = 28;
   // // create geometry
   // let phGeo = new THREE.PlaneGeometry(imagesSize, imagesSize, 1, 1);
   // for (let i = 0; i < imagesNum; i++) {
@@ -391,7 +378,7 @@ function scene5(){
   let ind = 5;
 
   // let imagesSize = 15;
-  // let imagesNum  = 48;
+  // let imagesNum  = 17;
   // // create geometry
   // let phGeo = new THREE.PlaneGeometry(imagesSize, imagesSize, 1, 1);
   // for (let i = 0; i < imagesNum; i++) {

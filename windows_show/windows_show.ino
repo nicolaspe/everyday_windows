@@ -1,3 +1,11 @@
+/*
+   EVERYDAY WINDOWS
+   Arduino component
+
+   Physical Computing + ICM - NYU ITP
+   Ilana Bonder + Nicolás Peña-Escarpentier
+   Fall 2017
+*/
 
 #include <Adafruit_NeoPixel.h>
 #include "wifi_config.h"
