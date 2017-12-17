@@ -350,54 +350,54 @@ function scene3(){
 function scene4(){
   let ind = 4;
 
-  // let imagesSize = 15;
-  // let imagesNum  = 28;
-  // // create geometry
-  // let phGeo = new THREE.PlaneGeometry(imagesSize, imagesSize, 1, 1);
-  // for (let i = 0; i < imagesNum; i++) {
-  //   // load image as texture
-  //   let phMat = new THREE.MeshBasicMaterial({
-  //     map: loader.load("media/4/" + i + ".png"),
-  //     side: THREE.DoubleSide,
-  //     transparent: true,
-  //   });
-  //   // position
-  //   let rad   = 30 +Math.random()*10;
-  //   let angle = i*(2*Math.PI/imagesNum) + Math.random()*0.2;
-  //   let posY = Math.random()*10;
-  //   let posX = rad * Math.sin(angle);
-  //   let posZ = rad * Math.cos(angle);
-  //   // create and add
-  //   let image = new THREE.Mesh(phGeo, phMat);
-  //   image.position.set(posX, posY, posZ);
-  //   image.rotation.y = angle +Math.PI;
-  //   scenes[ind].add(image);
-  // }
+  let imagesSize = 15;
+  let imagesNum  = 28;
+  // create geometry
+  let phGeo = new THREE.PlaneGeometry(imagesSize, imagesSize, 1, 1);
+  for (let i = 0; i < imagesNum; i++) {
+    // load image as texture
+    let phMat = new THREE.MeshBasicMaterial({
+      map: loader.load("media/4/" + i + ".png"),
+      side: THREE.DoubleSide,
+      transparent: true,
+    });
+    // position
+    let rad   = 30 +Math.random()*10;
+    let angle = i*(2*Math.PI/imagesNum) + Math.random()*0.2;
+    let posY = Math.random()*10;
+    let posX = rad * Math.sin(angle);
+    let posZ = rad * Math.cos(angle);
+    // create and add
+    let image = new THREE.Mesh(phGeo, phMat);
+    image.position.set(posX, posY, posZ);
+    image.rotation.y = angle +Math.PI;
+    scenes[ind].add(image);
+  }
 }
 function scene5(){
   let ind = 5;
 
-  // let imagesSize = 15;
-  // let imagesNum  = 17;
-  // // create geometry
-  // let phGeo = new THREE.PlaneGeometry(imagesSize, imagesSize, 1, 1);
-  // for (let i = 0; i < imagesNum; i++) {
-  //   // load image as texture
-  //   let phMat = new THREE.MeshBasicMaterial({
-  //     map: loader.load("media/5/" + i + ".png"),
-  //     side: THREE.DoubleSide,
-  //     transparent: true,
-  //   });
-  //   // position
-  //   let rad   = 30 +Math.random()*10;
-  //   let angle = i*(2*Math.PI/imagesNum) + Math.random()*0.2;
-  //   let posY = Math.random()*10;
-  //   let posX = rad * Math.sin(angle);
-  //   let posZ = rad * Math.cos(angle);
-  //   // create and add
-  //   let image = new THREE.Mesh(phGeo, phMat);
-  //   image.position.set(posX, posY, posZ);
-  //   image.rotation.y = angle +Math.PI;
-  //   scenes[ind].add(image);
-  // }
+  let imagesSize = 15;
+  let imagesNum  = 17;
+  // create geometry
+  let phGeo = new THREE.PlaneGeometry(imagesSize, imagesSize, 1, 1);
+  for (let i = 0; i < imagesNum; i++) {
+    // load image as texture
+    let phMat = new THREE.MeshBasicMaterial({
+      map: loader.load("media/5/" + i + ".png"),
+      side: THREE.DoubleSide,
+      transparent: true,
+    });
+    // position
+    let rad   = 30 +Math.random()*10;
+    let angle = i*(2*Math.PI/imagesNum) + Math.random()*0.2;
+    let posY = Math.random()*10;
+    let posX = rad * Math.sin(angle);
+    let posZ = rad * Math.cos(angle);
+    // create and add
+    let image = new THREE.Mesh(phGeo, phMat);
+    image.position.set(posX, posY, posZ);
+    image.rotation.y = angle +Math.PI;
+    scenes[ind].add(image);
+  }
 }

@@ -10,16 +10,11 @@ var port = process.env.PORT || 8090;
 var _scene = 0;
 
 // static html
-app.use(express.static('public'));
+// app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 // configure body-parser as middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
-// app.get('/', (req,res) => {
-// 	console.log(req);
-// 	res.render(__dirname + '/public/index.html');
-// });
-
 
 // server setup
 // 		listen for http connections
