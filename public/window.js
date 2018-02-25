@@ -310,7 +310,7 @@ function scene2(){
     // position
     let rad   = 30 +Math.random()*10;
     let angle = i*(2*Math.PI/imagesNum) + Math.random()*0.2;
-    let posY = Math.random()*10;
+    let posY = Math.random()*30-5;
     let posX = rad * Math.sin(angle);
     let posZ = rad * Math.cos(angle);
     // create and add
@@ -362,9 +362,9 @@ function scene4(){
       transparent: true,
     });
     // position
-    let rad   = 30 +Math.random()*10;
+    let rad   = 25 +Math.random()*15;
     let angle = i*(2*Math.PI/imagesNum) + Math.random()*0.2;
-    let posY = Math.random()*10;
+    let posY = Math.random()*20-5;
     let posX = rad * Math.sin(angle);
     let posZ = rad * Math.cos(angle);
     // create and add
@@ -389,9 +389,9 @@ function scene5(){
       transparent: true,
     });
     // position
-    let rad   = 30 +Math.random()*10;
-    let angle = i*(2*Math.PI/imagesNum) + Math.random()*0.2;
-    let posY = Math.random()*10;
+    let rad   = 35 +Math.random()*5;
+    let angle = i*(2*Math.PI/(imagesNum+1)) + Math.random()*0.2;
+    let posY = 15* Math.sin( Math.PI/4 *(i%2) ) +Math.random()*6-2;
     let posX = rad * Math.sin(angle);
     let posZ = rad * Math.cos(angle);
     // create and add
